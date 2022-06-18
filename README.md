@@ -41,7 +41,7 @@ Once downloaded, extract the archive of emails to a new folder.
 ### Option 2: Save your emails as `.eml` files using Thunderbird
 
 If you host your email with a provider that does not provide exported archives of your emails as `.eml` files (e.g.
-Gmail, you can use Thunderbird (or any desktop email client that allows you to save your emails as `.eml` files) to do
+Gmail), you can use Thunderbird (or any desktop email client that allows you to save your emails as `.eml` files) to do
 this yourself.
 
 Select the desired subset of emails that you wish to scan (or all of them, if you'd like), and then
