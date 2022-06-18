@@ -32,6 +32,7 @@ email providers are below:
 
 - [FastMail](https://www.fastmail.help/hc/en-us/articles/360060590573-Download-all-your-data#transfermail)
 - [Proton Mail](https://proton.me/support/export-emails-import-export-app)
+- [ZohoMail](https://www.zoho.com/mail/help/import-export-emails.html#alink2)
 
 Once downloaded, extract the archive of emails to a new folder.
 
