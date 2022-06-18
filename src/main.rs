@@ -229,16 +229,11 @@ fn main() -> Result<()> {
         process_dent(&dent?, &mut buffer, &mut unsubscribe_links, cli.debug)?;
     }
 
-    let mut domain_count_map = HashMap::new();
     let mut grouped = HashMap::new();
 
     for link in &unsubscribe_links {
         let domain: Vec<_> = link.from.split('@').collect();
-        *domain_count_map.entry(domain[1]).or_insert(1) += 1;
-        grouped
-            .entry(domain[1])
-            .or_insert_with(|| vec![link])
-            .push(link);
+        grouped.entry(domain[1]).or_insert_with(Vec::new).push(link);
     }
 
     let mut grouped_count_vec: Vec<_> = grouped.iter().collect();
