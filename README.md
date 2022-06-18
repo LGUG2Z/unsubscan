@@ -31,6 +31,7 @@ First, export your emails as an archive of EML files from your provider. Instruc
 email providers are below:
 
 - [FastMail](https://www.fastmail.help/hc/en-us/articles/360060590573-Download-all-your-data#transfermail)
+- [Proton Mail](https://proton.me/support/export-emails-import-export-app)
 
 Once downloaded, extract the archive of emails to a new folder.
 
