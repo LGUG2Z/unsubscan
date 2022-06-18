@@ -25,9 +25,11 @@ cd unsubscan
 cargo install --path .
 ```
 
-## How it works
+## Preparing your emails
 
-First, export your emails as an archive of EML files from your provider. Instructions on how to do this with different
+### Option 1: Get an archive of your emails from your provider as `.eml` files
+
+Export your emails as an archive of `.eml` files from your provider. Instructions on how to do this with different
 email providers are below:
 
 - [FastMail](https://www.fastmail.help/hc/en-us/articles/360060590573-Download-all-your-data#transfermail)
@@ -36,11 +38,23 @@ email providers are below:
 
 Once downloaded, extract the archive of emails to a new folder.
 
+### Option 2: Save your emails as `.eml` files using Thunderbird
+
+If you host your email with a provider that does not provide exported archives of your emails as `.eml` files (e.g.
+Gmail, you can use Thunderbird (or any desktop email client that allows you to save your emails as `.eml` files) to do
+this yourself.
+
+Select the desired subset of emails that you wish to scan (or all of them, if you'd like), and then
+select `File -> Save As -> File` from the menu bar to save them to a new folder.
+
+## How it works
+
 If you are running on a system that allows you to drag a folder directly onto an application to use that folder as an
-input (e.g. dragging and dropping a folder from Explorer onto an `exe` file on Windows), then this is all you have to do.
+input (e.g. dragging and dropping a folder from Explorer onto an `exe` file on Windows), then all you have to drag is drag
+your folder of emails on top of the `unsubscan` executable.
 
 If you are more comfortable on the command line, you can also call the binary with the path to your extracted folder of
-EML files as the sole argument.
+`.eml` files as the sole argument.
 
 ```
 unsubscan 0.1.0
@@ -68,7 +82,7 @@ If you are running `unsubscan` from the command line, you may also optionally re
 
 ## Contributing
 
-Please feel free to open a PR with links explaining how to export emails as EML files with other email providers.
+Please feel free to open a PR with links explaining how to export emails as `.eml` files with other email providers.
 
 I am not interested in adding MBOX support myself, but I will be happy to review and eventually accept a PR that adds
 this functionality.

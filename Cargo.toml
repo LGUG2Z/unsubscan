@@ -1,6 +1,6 @@
 [package]
 name = "unsubscan"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Jade Iqbal <jadeiqbal@fastmail.com>"]
 description = "A tool to help you find unsubscribe links in your emails"
 license = "MIT"

@@ -32,5 +32,6 @@ jobs:
           bin: unsubscan
           tar: unix
           zip: windows
+          archive: $bin-$tag-$target
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

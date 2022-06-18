@@ -103,7 +103,7 @@ fn process_dent(
     Ok(())
 }
 
-fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result<()> {
+fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)], total: usize) -> Result<()> {
     let tpl = html! {
         (maud::DOCTYPE)
         html lang="en" {
@@ -123,6 +123,20 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
                               }
                         }"
                     ))
+                    (maud::PreEscaped(
+                        "function toggleAll() {
+                              var links = document.getElementById('links');
+                              links.childNodes.forEach(x => {
+                                  if (x.className === 'box') {
+                                      if (x.style.display === 'none') {
+                                        x.style.display = 'block';
+                                      } else {
+                                        x.style.display = 'none';
+                                      }
+                                }
+                              })
+                        }"
+                    ))
                 }
             }
 
@@ -131,7 +145,7 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
                     .container {
                         .column.box {
                             .content.has-text-centered {
-                                h1 { "unsubscan - Your Unsubscribe Links" }
+                                h1 { a href="https://github.com/LGUG2Z/unsubscan" {"unsubscan" } " - Your Unsubscribe Links" }
                                 ul {
                                     li { "These are all the unsubscription links that were found from your emails" }
                                     li { "On the left is the list of domains from which unsubscription links were found, sorted by the number of links found" }
@@ -144,7 +158,11 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
                             }
                         }
                         #results .columns .is-mobile {
-                            .column .is-narrow {
+                            #domains .column .is-narrow {
+                                .box .all-domains {
+                                    p { b { "All domains" } }
+                                    p { a onclick="toggleAll()" { "Unsubscribe links: " (total) } }
+                                }
                                 @for entry in grouped_with_count {
                                     @let domain = entry.0;
                                     @let count = entry.1;
@@ -153,11 +171,11 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
                                     .box #(domain_link_id) {
                                         p { b { (domain) } }
                                         @let handler = format!("toggleVisibility('{}')", domain);
-                                        p { a onclick=(handler) { (count) " emails" } }
+                                        p { a onclick=(handler) { "Unsubscribe links: " (count) } }
                                     }
                                 }
                             }
-                            .column {
+                            #links .column {
                                 @for entry in grouped_with_count {
                                     @let domain = entry.0;
                                     @let unsubs = entry.2;
@@ -171,6 +189,11 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
                                                 }
                                             }
                                         }
+
+                                        br;
+
+                                        @let handler = format!("toggleVisibility('{}')", domain);
+                                        p { b { a onclick=(handler) { "Done" } } }
                                     }
                                 }
                             }
@@ -185,16 +208,10 @@ fn gen_html(grouped_with_count: &[(&&str, usize, &Vec<&Unsubscribe>)]) -> Result
     Ok(std::fs::write(&*OUTPUT, tpl.into_string())?)
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ArgEnum)]
+#[derive(Debug, Copy, Clone, ArgEnum)]
 enum OutputFormat {
     Html,
     Json,
-}
-
-impl Default for OutputFormat {
-    fn default() -> Self {
-        Self::Html
-    }
 }
 
 #[derive(Parser, Debug)]
@@ -236,18 +253,18 @@ fn main() -> Result<()> {
         grouped.entry(domain[1]).or_insert_with(Vec::new).push(link);
     }
 
-    let mut grouped_count_vec: Vec<_> = grouped.iter().collect();
-    let mut grouped_with_count: Vec<_> = grouped_count_vec
+    let mut grouped_with_count: Vec<_> = grouped
+        .iter()
+        .collect::<Vec<_>>()
         .iter()
         .map(|x| (x.0, x.1.len(), x.1))
         .collect();
 
-    grouped_count_vec.sort_by(|a, b| b.1.len().cmp(&a.1.len()));
     grouped_with_count.sort_by(|a, b| b.1.cmp(&a.1));
 
     match cli.output {
         OutputFormat::Html => {
-            gen_html(&grouped_with_count)?;
+            gen_html(&grouped_with_count, unsubscribe_links.len())?;
             open::that(&*OUTPUT)?;
         }
         OutputFormat::Json => {
