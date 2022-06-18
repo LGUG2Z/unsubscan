@@ -1,0 +1,7 @@
+/target
+output.json
+output.html
+.idea
+*.iml
+*.ipr
+*.iws
