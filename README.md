@@ -17,6 +17,16 @@ I created `unsubscan` because I think that anyone should be able to quickly and 
 
 Pre-compiled binaries of the latest release will be made available on the Releases page of this repository.
 
+If you are using Windows, it is strongly recommended to install using the [Scoop package manager](https://scoop.sh) to
+avoid issues with Windows
+Defender [mistakenly](https://www.virustotal.com/gui/file/fb00e0c43336787eeb12151e35bbddf6f0190eded4431bfdcf7776fbda806fdf)
+blocking the zip file that is made available for download on the Releases page.
+
+```powershell
+scoop bucket add extras
+scoop install unsubscan
+```
+
 Alternatively, you may also compile this project from source if you have a working Rust development environment:
 
 ```
@@ -83,6 +93,9 @@ If you are running `unsubscan` from the command line, you may also optionally re
 ## Contributing
 
 Please feel free to open a PR with links explaining how to export emails as `.eml` files with other email providers.
+
+Please also feel free to make the binary releases available for installation via package managers on other operating
+systems.
 
 I am not interested in adding MBOX support myself, but I will be happy to review and eventually accept a PR that adds
 this functionality.
