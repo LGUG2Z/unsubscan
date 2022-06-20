@@ -10,6 +10,8 @@ use std::path::PathBuf;
 use clap::ArgEnum;
 use clap::Parser;
 use color_eyre::Result;
+use indicatif::ProgressBar;
+use indicatif::ProgressStyle;
 use lazy_static::lazy_static;
 use linkify::Link;
 use linkify::LinkFinder;
@@ -242,9 +244,18 @@ fn main() -> Result<()> {
         );
     }
 
+    let pb = ProgressBar::new_spinner();
+    pb.set_style(
+        ProgressStyle::default_spinner()
+            .template("{spinner} Scanned {pos} emails for unsubscribe links [{elapsed}]"),
+    );
+
     for dent in WalkDir::new(cli.directory) {
         process_dent(&dent?, &mut buffer, &mut unsubscribe_links, cli.debug)?;
+        pb.inc(1);
     }
+
+    pb.finish_at_current_pos();
 
     let mut grouped = HashMap::new();
 

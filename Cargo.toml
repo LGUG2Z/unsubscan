@@ -1,6 +1,6 @@
 [package]
 name = "unsubscan"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Jade Iqbal <jadeiqbal@fastmail.com>"]
 description = "A tool to help you find unsubscribe links in your emails"
 license = "MIT"
@@ -11,6 +11,7 @@ edition = "2021"
 [dependencies]
 clap = { version = "3", features = ["derive"] }
 color-eyre = "0.6"
+indicatif = "0.16"
 lazy_static = "1.4"
 linkify = "0.8"
 maud = "0.23"
